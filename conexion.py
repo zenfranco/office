@@ -8,6 +8,8 @@ class base():
 	def __init__(self):
 		#self.conn = sqlite3.connect('bd')
 		self.conn = psycopg2.connect(host="localhost", database="db", user="zenfranco", password="1234zenfranco")
+		#self.conn = psycopg2.connect(host="10.100.92.137", database="db", user="nicog", password="nico123")
+		#self.conn = psycopg2.connect(host="10.100.92.137", database="db", user="pgassmann", password="pablo1234")
 		
 		
 
@@ -20,7 +22,7 @@ class base():
 	
 	def insertarenlotes(self,registro,dni,importe,fecha):
 		cur= self.conn.cursor()
-		cur.execute('''INSERT INTO lotes (num_reg,dni,importe,fecha_carga) VALUES (%s,%s,%s,%s)''',([registro,dni,importe,fecha]))
+		cur.execute('''INSERT INTO lotes (num_reg,dni,importe,fecha_carga) VALUES (%s,%s,%s,%s)''',([registro.upper(),dni,importe,fecha]))
 		self.conn.commit()
 		cur.close()
 	
@@ -33,7 +35,7 @@ class base():
 		
 	def eliminarregistros(self,registro,dni):
 		cur=self.conn.cursor()
-		cur.execute('''delete from registros where num_reg=%s and dni=%s''',([registro,dni]))
+		cur.execute('''delete from registros where num_reg=%s and dni=%s''',([registro.upper(),dni]))
 		self.conn.commit()
 		cur.close()
 		
@@ -81,17 +83,17 @@ class base():
 		return listado
 			
 		
-	def actualizapagoenbd(self,registro,fechapago,transferencia,estado,indice,orden,mes):
+	def actualizapagoenbd(self,registro,fechapago,transferencia,estado,indice,orden,mes,anio):
 		cur=self.conn.cursor()
-		cur.execute('''UPDATE registros SET fecha_pago =%s,num_transferencia= %s,estado=%s,orden=%s,mes=%s
-		where num_reg =%s and indice =%s''',([fechapago,transferencia,estado,orden,mes,registro.upper(),indice]))
+		cur.execute('''UPDATE registros SET fecha_pago =%s,num_transferencia= %s,estado=%s,orden=%s,mes=%s,anio=%s
+		where num_reg =%s and indice =%s''',([fechapago,transferencia,estado,orden,mes,anio,registro.upper(),indice]))
 		self.conn.commit()
 		cur.close()
 		
-	def actualizapagoenbd_masivo(self,registro,fechapago,transferencia,estado,orden,mes):
+	def actualizapagoenbd_masivo(self,registro,fechapago,transferencia,estado,orden,mes,anio):
 		cur=self.conn.cursor()
-		cur.execute('''UPDATE registros SET fecha_pago =%s,num_transferencia= %s,estado=%s,orden=%s,mes=%s
-		where num_reg =%s''',([fechapago,transferencia,estado,orden,mes,registro.upper()]))
+		cur.execute('''UPDATE registros SET fecha_pago =%s,num_transferencia= %s,estado=%s,orden=%s,mes=%s,anio=%s
+		where num_reg =%s''',([fechapago,transferencia,estado,orden,mes,anio,registro.upper()]))
 		self.conn.commit()
 		cur.close()
 		
@@ -106,8 +108,8 @@ class base():
 		
 	def recuperatodoenbd(self,reg):
 		cur=self.conn.cursor()
-		cur.execute('''SELECT dni,ayn,importe,concepto,fecha_pago,fecha_pres,num_transferencia,observaciones from registros  
-		where num_reg = %s order by fecha_ingreso ''',([reg]))
+		cur.execute('''SELECT dni,ayn,importe,concepto,fecha_pago,fecha_pres,num_transferencia,observaciones,cuenta,num_reg,indice from registros  
+		where num_reg = %s order by fecha_ingreso ''',([reg.upper()]))
 		listado = cur.fetchall()
 		cur.close()
 		return listado
@@ -128,13 +130,18 @@ class base():
 		cur.close()
 		return listado
 		
-	def actualizatodoenbd(self,registro,dni,ayn,importe,concepto,fechapago,fechapres,transferencia,obs):
+	def actualizatodoenbd(self,dni,ayn,importe,concepto,fechapago,fechapres,transferencia,obs,cuenta,registro,indice):
 		cur=self.conn.cursor()
 		cur.execute('''UPDATE registros SET dni=%s,importe=%s,concepto=%s,fecha_pago=%s
-		,fecha_pres=%s,num_transferencia=%s,observaciones=%s,ayn=%s where num_reg=%s''',([dni,importe,concepto,fechapago,
-		fechapres,transferencia,obs,ayn,registro]))
+		,fecha_pres=%s,num_transferencia=%s,observaciones=%s,ayn=%s,cuenta=%s,num_reg=%s where indice=%s''',([dni,importe,concepto,fechapago,
+		fechapres,transferencia,obs,ayn,cuenta,registro,indice]))
 		self.conn.commit()
 		cur.close()
+	def actualizarenlotes(self,registro,importe):
+		cursor=self.conn.cursor()
+		cursor.execute('''UPDATE lotes SET importe=%s where num_reg =%s''',([importe,registro.upper()]))
+		self.conn.commit()
+		cursor.close()
 	
 		
 	def registrardevolucion(self,numreg,fecha,motivo,destino):
@@ -167,7 +174,7 @@ class base():
 		
 	def listarporfechatransferencias(self,fechainicio,fechafin,concepto,cuenta):
 		cur=self.conn.cursor()
-		cur.execute('''select * from registros where fecha_pago >= %s and fecha_pago <= %s and concepto LIKE %s and cuenta LIKE %s order by orden''',([fechainicio,fechafin,concepto,cuenta]))
+		cur.execute('''select * from registros where fecha_pago >= %s and fecha_pago <= %s and concepto LIKE %s and cuenta LIKE %s and estado ='TRANSFERIDO' order by orden''',([fechainicio,fechafin,concepto,cuenta]))
 		listado=cur.fetchall()
 		cur.close()
 		return listado
@@ -213,7 +220,7 @@ class base():
 		
 	def validalote(self,lote):
 		cur=self.conn.cursor()
-		cur.execute('''select num_lote from lote where num_lote=%s LIMIT 1''',([lote]))
+		cur.execute('''select num_lote from lotes where num_lote=%s LIMIT 1''',([lote]))
 		lote= cur.fetchone()
 		cur.close()
 		return lote
@@ -230,7 +237,7 @@ class base():
 	def listarloteablesforexport(self,fechadesde,fechahasta):
 		cur=self.conn.cursor()
 		cur.execute('''select sistema,sucursal,cuenta,num_lote,importe from lotes l inner join afiliados a on a.dni=l.dni
-		where fecha_carga >= %s and fecha_carga <= %s  and estado='ACTIVO' order by indice''',([fechadesde,fechahasta]))
+		where fecha_carga >= %s and fecha_carga <= %s  and estado='ACTIVO' and l.num_lote is null order by indice''',([fechadesde,fechahasta]))
 		listado= cur.fetchall()
 		cur.close()
 		return listado
@@ -240,7 +247,7 @@ class base():
 		cur.execute('''select l.num_reg, l.dni,l.importe,a.nombre from lotes l
 		inner join Afiliados a		
 		on a.dni=l.dni
-		where fecha_carga >= %s and fecha_carga <= %s and estado ='ACTIVO' order by l.indice''',([fechadesde,fechahasta]))
+		where fecha_carga >= %s and fecha_carga <= %s and estado ='ACTIVO' and l.num_lote is null order by l.indice''',([fechadesde,fechahasta]))
 		listado= cur.fetchall()
 		cur.close()
 		return listado
@@ -262,11 +269,21 @@ class base():
 			return nombre
 		else:
 			return("Nuevo Afiliado!")
+			
+	def getEstado(self,dni):
+		cur=self.conn.cursor()
+		cur.execute(''' select estado from afiliados where dni=%s''',([dni]))
+		estado=cur.fetchone()
+		cur.close()
+		if estado:
+			return estado
+		else:
+			return "Sin Datos"
 	
 		
 	def asignalote(self,indice,numlote):
 		cur=self.conn.cursor()
-		cur.execute(''' UPDATE lotes SET num_lote=%s where indice = %s''',([numlote,indice]))
+		cur.execute(''' UPDATE lotes SET num_lote=%s where indice = %s and num_lote is null''',([numlote,indice]))
 		self.conn.commit()
 		cur.close()
 		
@@ -278,19 +295,19 @@ class base():
 		cur.close()
 		return registro
 	
-	def recuperaultimoorden(self,mes,cuenta):
+	def recuperaultimoorden(self,mes,cuenta,anio):
 		cur=self.conn.cursor()
-		cur.execute('''select coalesce(max(orden+1),1) from registros where mes=%s and cuenta=%s''',([mes,cuenta]))
+		cur.execute('''select coalesce(max(orden+1),1) from registros where mes=%s and cuenta=%s and anio=%s''',([mes,cuenta,anio]))
 		orden=cur.fetchone()
 		self.conn.commit()
 		cur.close()
 		return orden
 		
 		
-	def asignaloteenregistros(self,lote,registro,fecha,importe,dni,orden,mes):
+	def asignaloteenregistros(self,lote,registro,fecha,orden,mes,anio):
 		cur=self.conn.cursor()
-		cur.execute('''UPDATE registros SET num_lote=%s,fecha_pago=%s,orden=%s,estado='TRANSFERIDO',mes=%s
-		where num_reg=%s and fecha_ingreso=%s and importe=%s and dni=%s''',([lote,str(date.today()),orden,mes,registro,fecha,importe,dni]))
+		cur.execute('''UPDATE registros SET num_lote=%s,fecha_pago=%s,orden=%s,estado='TRANSFERIDO',mes=%s,anio=%s
+		where num_reg=%s''',([lote,fecha,orden,mes,anio,registro]))
 		self.conn.commit()
 		cur.close()
 		
@@ -336,9 +353,9 @@ class base():
 		self.conn.commit()
 		cur.close()
 		
-	def validarduplicados(self,registro,dni):
+	def validarduplicados(self,registro):
 		cur=self.conn.cursor()
-		cur.execute(''' select num_reg from registros where num_reg= %s and dni=%s ''',[registro,dni])
+		cur.execute(''' select num_reg from registros where num_reg= %s ''',[registro])
 		afiliado=cur.fetchone()
 		self.conn.commit()
 		cur.close()
@@ -346,11 +363,33 @@ class base():
 	
 	def validaregistro(self,registro):
 		cur=self.conn.cursor()
-		cur.execute(''' select num_reg from registros where num_reg= (%s) ''',[registro])
+		cur.execute(''' select num_reg,importe from registros where num_reg= (%s) ''',[registro])
 		reg=cur.fetchone()
 		self.conn.commit()
 		cur.close()
 		return reg
+		
+	def validaragente(self,dni):
+		cur=self.conn.cursor()
+		cur.execute(''' select nombre from agentes where dni= (%s) ''',[dni])
+		reg=cur.fetchone()
+		self.conn.commit()
+		cur.close()
+		return reg
+	
+	def validarvalores(self,month,year):
+		cur=self.conn.cursor()
+		cur.execute(''' SELECT valor FROM valores_comision WHERE mvigencia = %s and avigencia= %s ''',[month,year])
+		valor=cur.fetchone()
+		self.conn.commit()
+		cur.close()
+		return valor
+		
+	def updatevalorcomision(self,valor,month,year):
+		cursor=self.conn.cursor()
+		cursor.execute('''UPDATE valores_comision SET valor= %s where mvigencia= %s and avigencia =%s''',([valor,month,year]))
+		self.conn.commit()
+		cursor.close()
 		
 	def traeragentes(self):
 		cur=self.conn.cursor()
@@ -384,16 +423,22 @@ class base():
 		
 		return comision
 	
-	def insertarcomision(self,fecha_comision,hora_inicio,hora_fin,destino,transporte,razon,importe,agente,fecha_vuelta,localidad):
+	def insertarcomision(self,fecha_comision,hora_inicio,hora_fin,destino,transporte,razon,importe,agente,fecha_vuelta,localidad,pasaje):
 		cur=self.conn.cursor()
-		cur.execute (''' INSERT INTO comisiones (fecha,hora_ida,hora_vuelta,destino,transporte,motivo,importe,agente,fecha_vuelta,localidad) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)''',
-		([fecha_comision,hora_inicio,hora_fin,destino,transporte,razon,importe,agente,fecha_vuelta,localidad]))
+		cur.execute (''' INSERT INTO comisiones (fecha,hora_ida,hora_vuelta,destino,transporte,motivo,importe,agente,fecha_vuelta,localidad,pasaje) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)''',
+		([fecha_comision,hora_inicio,hora_fin,destino,transporte,razon,importe,agente,fecha_vuelta,localidad,pasaje]))
 		self.conn.commit()
 		cur.close()
 		
+	def nuevovalorcomision(self,year,month,valor,fecha):
+		cursor=self.conn.cursor()
+		cursor.execute('''INSERT into valores_comision (avigencia,mvigencia,valor,fecha_vigencia) VALUES (%s,%s,%s,%s)''',([year,month,valor,fecha]))
+		self.conn.commit()
+		cursor.close()
+		
 	def traercomisiones(self,nombre):
 		cur=self.conn.cursor()
-		cur.execute('''select fecha,agente,destino,importe,transporte,motivo,hora_ida,hora_vuelta from comisiones where agente=%s order by fecha''',([nombre]))
+		cur.execute('''select fecha,agente,destino,importe,transporte,motivo,hora_ida,hora_vuelta,pasaje from comisiones where agente=%s order by num_comision DESC''',([nombre]))
 		listado= cur.fetchall()
 		cur.close()
 		return listado
@@ -411,6 +456,14 @@ class base():
 		self.conn.commit()
 		cur.close()
 		return cuenta
+		
+	def validarcbu(self,cbu):
+		cur=self.conn.cursor()
+		cur.execute(''' select cbu from Afiliados where cbu= (%s)''',[cbu])
+		cbu=cur.fetchone()
+		self.conn.commit()
+		cur.close()
+		return cbu
 		
 	def observa_estado(self,num_reg,estado):
 		cur=self.conn.cursor()
@@ -433,6 +486,15 @@ class base():
 		self.conn.commit()
 		cursor.close()
 		return email
+		
+		
+	def recuperaultimolote(self):
+		cur=self.conn.cursor()
+		cur.execute('''select coalesce(max(num_lote)) from lotes ''')
+		ult_lote=cur.fetchone()
+		self.conn.commit()
+		cur.close()
+		return ult_lote
 		
 	
 		

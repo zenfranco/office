@@ -79,7 +79,8 @@ border-color: pink;
 font-weight: bold;
 }
 QTableWidget{
-background-color:#eee9e7;
+background-color:rgb(255, 240, 239);
+
 }
 
 QRadioButton{
@@ -947,6 +948,11 @@ border-radius:15px</string>
             </item>
             <item>
              <property name="text">
+              <string>M. Prestacional</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
               <string>Ortopedia Blanda</string>
              </property>
             </item>
@@ -1225,7 +1231,7 @@ border-radius:15px</string>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color:white;</string>
+             <string notr="true"/>
             </property>
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
@@ -1335,7 +1341,7 @@ border-radius:15px</string>
              <string>Return</string>
             </property>
            </widget>
-           <widget class="QPushButton" name="btn_busqueda_limpiar">
+           <widget class="QPushButton" name="btn_exportar_busqueda">
             <property name="geometry">
              <rect>
               <x>620</x>
@@ -1345,7 +1351,7 @@ border-radius:15px</string>
              </rect>
             </property>
             <property name="text">
-             <string>Limpiar</string>
+             <string>Exportar</string>
             </property>
            </widget>
            <widget class="Line" name="line_5">
@@ -1519,7 +1525,7 @@ background-color:#cfcfcf;</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color:white;</string>
+            <string notr="true"/>
            </property>
            <property name="alternatingRowColors">
             <bool>true</bool>
@@ -1806,7 +1812,7 @@ background-color:#cfcfcf;</string>
              <x>10</x>
              <y>70</y>
              <width>251</width>
-             <height>81</height>
+             <height>101</height>
             </rect>
            </property>
            <property name="frameShape">
@@ -1832,9 +1838,9 @@ background-color:#cfcfcf;</string>
             <property name="geometry">
              <rect>
               <x>130</x>
-              <y>50</y>
+              <y>57</y>
               <width>101</width>
-              <height>27</height>
+              <height>31</height>
              </rect>
             </property>
             <property name="date">
@@ -1871,9 +1877,9 @@ background-color:#cfcfcf;</string>
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>50</y>
+              <y>57</y>
               <width>101</width>
-              <height>27</height>
+              <height>31</height>
              </rect>
             </property>
             <property name="date">
@@ -2013,6 +2019,11 @@ background-color:#cfcfcf;</string>
            <item>
             <property name="text">
              <string>Ortopedia Blanda</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>M. Prestacional</string>
             </property>
            </item>
            <item>
@@ -2238,8 +2249,7 @@ background-color:#cfcfcf;</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">border-radius:15px;
-background-color:white;</string>
+            <string notr="true"/>
            </property>
            <property name="alternatingRowColors">
             <bool>true</bool>
@@ -2808,7 +2818,7 @@ border-color: white;
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color:white;</string>
+            <string notr="true"/>
            </property>
            <property name="alternatingRowColors">
             <bool>true</bool>
@@ -4022,7 +4032,7 @@ border-color: white;
            <property name="geometry">
             <rect>
              <x>278</x>
-             <y>540</y>
+             <y>510</y>
              <width>191</width>
              <height>31</height>
             </rect>
@@ -4153,69 +4163,6 @@ color:white;
              <string>Eliminar</string>
             </property>
            </widget>
-           <widget class="QCheckBox" name="cbx_loteado">
-            <property name="geometry">
-             <rect>
-              <x>300</x>
-              <y>10</y>
-              <width>151</width>
-              <height>22</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Registro loteado</string>
-            </property>
-           </widget>
-          </widget>
-          <widget class="QTableWidget" name="tb_modificar">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>430</y>
-             <width>681</width>
-             <height>101</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: white;
-border-radius:15px;</string>
-           </property>
-           <attribute name="verticalHeaderVisible">
-            <bool>false</bool>
-           </attribute>
-           <column>
-            <property name="text">
-             <string>DNI</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Nombre</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Importe</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Fecha Pago</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Lote</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Indice</string>
-            </property>
-           </column>
           </widget>
           <widget class="QFrame" name="frame_29">
            <property name="geometry">
@@ -4254,6 +4201,150 @@ border-radius:15px;</string>
              <string>MODIFICAR REGISTROS</string>
             </property>
            </widget>
+          </widget>
+          <widget class="QPushButton" name="btn_liberacuenta">
+           <property name="geometry">
+            <rect>
+             <x>310</x>
+             <y>444</y>
+             <width>31</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>icons/unlock.png</normaloff>icons/unlock.png</iconset>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="txt_modificar_cuenta">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>444</y>
+             <width>271</width>
+             <height>31</height>
+            </rect>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_47">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>424</y>
+             <width>221</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Liberation Mono</family>
+             <pointsize>12</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>CUENTA</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="btn_liberanuevoreg">
+           <property name="geometry">
+            <rect>
+             <x>690</x>
+             <y>444</y>
+             <width>31</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>icons/unlock.png</normaloff>icons/unlock.png</iconset>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="txt_modificar_nuevoreg">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="geometry">
+            <rect>
+             <x>410</x>
+             <y>444</y>
+             <width>271</width>
+             <height>31</height>
+            </rect>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_193">
+           <property name="geometry">
+            <rect>
+             <x>410</x>
+             <y>424</y>
+             <width>221</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Liberation Mono</family>
+             <pointsize>12</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>N° DE REGISTRO</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="signal_indice">
+           <property name="geometry">
+            <rect>
+             <x>652</x>
+             <y>518</y>
+             <width>68</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="cbx_modificaenlote">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>504</y>
+             <width>221</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <weight>75</weight>
+             <italic>true</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">
+background:white;
+border-radius:15px;
+</string>
+           </property>
+           <property name="text">
+            <string>Modificar tambien en Lotes</string>
+           </property>
           </widget>
          </widget>
          <widget class="QWidget" name="p_lotes">
@@ -4395,7 +4486,7 @@ border-radius:15px;</string>
              </rect>
             </property>
             <property name="styleSheet">
-             <string notr="true">background:white;</string>
+             <string notr="true"/>
             </property>
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
@@ -4458,7 +4549,7 @@ border-radius:15px;</string>
            <widget class="QLabel" name="label_50">
             <property name="geometry">
              <rect>
-              <x>500</x>
+              <x>460</x>
               <y>430</y>
               <width>131</width>
               <height>17</height>
@@ -4478,9 +4569,9 @@ border-radius:15px;</string>
            <widget class="QLabel" name="signal_totallote">
             <property name="geometry">
              <rect>
-              <x>630</x>
+              <x>590</x>
               <y>430</y>
-              <width>91</width>
+              <width>181</width>
               <height>17</height>
              </rect>
             </property>
@@ -4491,8 +4582,11 @@ border-radius:15px;</string>
               <bold>true</bold>
              </font>
             </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(170, 0, 0);</string>
+            </property>
             <property name="text">
-             <string>$$$</string>
+             <string/>
             </property>
            </widget>
            <widget class="QLineEdit" name="txt_primerindice">
@@ -4501,7 +4595,7 @@ border-radius:15px;</string>
               <x>20</x>
               <y>450</y>
               <width>71</width>
-              <height>31</height>
+              <height>20</height>
              </rect>
             </property>
            </widget>
@@ -4509,9 +4603,9 @@ border-radius:15px;</string>
             <property name="geometry">
              <rect>
               <x>20</x>
-              <y>510</y>
+              <y>501</y>
               <width>71</width>
-              <height>31</height>
+              <height>21</height>
              </rect>
             </property>
            </widget>
@@ -4532,7 +4626,7 @@ border-radius:15px;</string>
             <property name="geometry">
              <rect>
               <x>20</x>
-              <y>490</y>
+              <y>478</y>
               <width>101</width>
               <height>17</height>
              </rect>
@@ -4544,10 +4638,10 @@ border-radius:15px;</string>
            <widget class="QPushButton" name="btn_lotear">
             <property name="geometry">
              <rect>
-              <x>190</x>
-              <y>450</y>
+              <x>140</x>
+              <y>490</y>
               <width>71</width>
-              <height>91</height>
+              <height>41</height>
              </rect>
             </property>
             <property name="text">
@@ -4557,63 +4651,37 @@ border-radius:15px;</string>
            <widget class="QPushButton" name="btn_exportar_lote">
             <property name="geometry">
              <rect>
-              <x>470</x>
-              <y>490</y>
+              <x>650</x>
+              <y>117</y>
               <width>91</width>
               <height>31</height>
              </rect>
             </property>
             <property name="text">
-             <string>Exportar</string>
+             <string>Pre Lotear</string>
             </property>
            </widget>
            <widget class="QLineEdit" name="txt_numlote">
             <property name="geometry">
              <rect>
-              <x>114</x>
-              <y>480</y>
+              <x>154</x>
+              <y>450</y>
               <width>41</width>
-              <height>31</height>
+              <height>21</height>
              </rect>
             </property>
            </widget>
            <widget class="QLabel" name="label_55">
             <property name="geometry">
              <rect>
-              <x>110</x>
-              <y>460</y>
+              <x>150</x>
+              <y>430</y>
               <width>51</width>
-              <height>17</height>
+              <height>16</height>
              </rect>
             </property>
             <property name="text">
              <string>N° Lote</string>
-            </property>
-           </widget>
-           <widget class="Line" name="line_9">
-            <property name="geometry">
-             <rect>
-              <x>300</x>
-              <y>430</y>
-              <width>20</width>
-              <height>111</height>
-             </rect>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_66">
-            <property name="geometry">
-             <rect>
-              <x>420</x>
-              <y>460</y>
-              <width>201</width>
-              <height>17</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Exportar Planilla para  lote</string>
             </property>
            </widget>
            <widget class="QRadioButton" name="rb_xlote">
@@ -4708,6 +4776,78 @@ border-radius:15px;</string>
               <string>LISTAR REGISTROS</string>
              </property>
             </widget>
+           </widget>
+           <widget class="QLabel" name="label_9">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>557</y>
+              <width>91</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Ultimo Lote:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="signal_ultlote">
+            <property name="geometry">
+             <rect>
+              <x>110</x>
+              <y>557</y>
+              <width>91</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(170, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+           <widget class="QLabel" name="signal_cant_lote">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>458</y>
+              <width>111</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <family>Liberation Mono</family>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(170, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_65">
+            <property name="geometry">
+             <rect>
+              <x>460</x>
+              <y>460</y>
+              <width>201</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <family>Liberation Mono</family>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Cantidad de Registros:</string>
+            </property>
            </widget>
           </widget>
          </widget>
@@ -5517,7 +5657,7 @@ border-color: white;
             <property name="geometry">
              <rect>
               <x>20</x>
-              <y>59</y>
+              <y>50</y>
               <width>751</width>
               <height>71</height>
              </rect>
@@ -5626,7 +5766,7 @@ border-color: white;
              </rect>
             </property>
             <property name="styleSheet">
-             <string notr="true">background:white;</string>
+             <string notr="true"/>
             </property>
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
@@ -5683,13 +5823,18 @@ border-color: white;
               <string>Hora Vuelta</string>
              </property>
             </column>
+            <column>
+             <property name="text">
+              <string>Pasaje</string>
+             </property>
+            </column>
            </widget>
            <widget class="QComboBox" name="cbx_transporte">
             <property name="geometry">
              <rect>
               <x>42</x>
-              <y>262</y>
-              <width>261</width>
+              <y>242</y>
+              <width>121</width>
               <height>31</height>
              </rect>
             </property>
@@ -5708,7 +5853,7 @@ border-color: white;
             <property name="geometry">
              <rect>
               <x>40</x>
-              <y>146</y>
+              <y>130</y>
               <width>81</width>
               <height>17</height>
              </rect>
@@ -5724,7 +5869,7 @@ border-color: white;
             <property name="geometry">
              <rect>
               <x>40</x>
-              <y>166</y>
+              <y>150</y>
               <width>91</width>
               <height>31</height>
              </rect>
@@ -5739,8 +5884,8 @@ border-color: white;
            <widget class="QComboBox" name="txt_razon">
             <property name="geometry">
              <rect>
-              <x>330</x>
-              <y>262</y>
+              <x>180</x>
+              <y>242</y>
               <width>261</width>
               <height>31</height>
              </rect>
@@ -5795,7 +5940,7 @@ border-color: white;
             <property name="geometry">
              <rect>
               <x>50</x>
-              <y>240</y>
+              <y>220</y>
               <width>91</width>
               <height>17</height>
              </rect>
@@ -5810,8 +5955,8 @@ border-color: white;
            <widget class="QLabel" name="label_74">
             <property name="geometry">
              <rect>
-              <x>340</x>
-              <y>242</y>
+              <x>190</x>
+              <y>220</y>
               <width>251</width>
               <height>17</height>
              </rect>
@@ -5827,7 +5972,7 @@ border-color: white;
             <property name="geometry">
              <rect>
               <x>430</x>
-              <y>166</y>
+              <y>150</y>
               <width>121</width>
               <height>31</height>
              </rect>
@@ -5852,7 +5997,7 @@ border-color: white;
             <property name="geometry">
              <rect>
               <x>440</x>
-              <y>146</y>
+              <y>130</y>
               <width>61</width>
               <height>17</height>
              </rect>
@@ -5870,8 +6015,8 @@ border-color: white;
             </property>
             <property name="geometry">
              <rect>
-              <x>610</x>
-              <y>261</y>
+              <x>460</x>
+              <y>242</y>
               <width>141</width>
               <height>31</height>
              </rect>
@@ -5880,8 +6025,8 @@ border-color: white;
            <widget class="QLabel" name="label_76">
             <property name="geometry">
              <rect>
-              <x>620</x>
-              <y>239</y>
+              <x>470</x>
+              <y>220</y>
               <width>171</width>
               <height>17</height>
              </rect>
@@ -5896,14 +6041,14 @@ border-color: white;
            <widget class="QPushButton" name="btn_cargar_comision">
             <property name="geometry">
              <rect>
-              <x>270</x>
-              <y>311</y>
+              <x>280</x>
+              <y>300</y>
               <width>191</width>
-              <height>31</height>
+              <height>41</height>
              </rect>
             </property>
             <property name="text">
-             <string>Cargar nueva comisión</string>
+             <string>Ingresar Comisión</string>
             </property>
            </widget>
            <widget class="QLabel" name="label_77">
@@ -5929,7 +6074,7 @@ border-color: white;
             <property name="geometry">
              <rect>
               <x>145</x>
-              <y>146</y>
+              <y>130</y>
               <width>41</width>
               <height>17</height>
              </rect>
@@ -5945,7 +6090,7 @@ border-color: white;
             <property name="geometry">
              <rect>
               <x>229</x>
-              <y>147</y>
+              <y>131</y>
               <width>101</width>
               <height>17</height>
              </rect>
@@ -5961,7 +6106,7 @@ border-color: white;
             <property name="geometry">
              <rect>
               <x>143</x>
-              <y>166</y>
+              <y>150</y>
               <width>71</width>
               <height>31</height>
              </rect>
@@ -5978,7 +6123,7 @@ border-color: white;
             <property name="geometry">
              <rect>
               <x>229</x>
-              <y>166</y>
+              <y>150</y>
               <width>71</width>
               <height>31</height>
              </rect>
@@ -5991,34 +6136,11 @@ border-color: white;
              </time>
             </property>
            </widget>
-           <widget class="QPushButton" name="btn_imprimir_comision">
-            <property name="geometry">
-             <rect>
-              <x>710</x>
-              <y>310</y>
-              <width>51</width>
-              <height>31</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>icons/print.png</normaloff>icons/print.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-           </widget>
            <widget class="QLabel" name="label_92">
             <property name="geometry">
              <rect>
               <x>313</x>
-              <y>146</y>
+              <y>130</y>
               <width>101</width>
               <height>17</height>
              </rect>
@@ -6037,7 +6159,7 @@ border-color: white;
             <property name="geometry">
              <rect>
               <x>313</x>
-              <y>166</y>
+              <y>150</y>
               <width>91</width>
               <height>31</height>
              </rect>
@@ -6066,7 +6188,7 @@ border-color: white;
             <property name="geometry">
              <rect>
               <x>588</x>
-              <y>146</y>
+              <y>130</y>
               <width>71</width>
               <height>17</height>
              </rect>
@@ -6082,19 +6204,44 @@ border-color: white;
             <property name="geometry">
              <rect>
               <x>580</x>
-              <y>166</y>
+              <y>150</y>
               <width>171</width>
               <height>31</height>
              </rect>
             </property>
             <item>
              <property name="text">
-              <string>-</string>
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Albarellos</string>
              </property>
             </item>
             <item>
              <property name="text">
               <string>Alcorta</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Arequito</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Armstrong</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Bombal</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Bustinza</string>
              </property>
             </item>
             <item>
@@ -6114,7 +6261,22 @@ border-color: white;
             </item>
             <item>
              <property name="text">
+              <string>Carreras</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Coronel Arnoldt</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
               <string>Firmat</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Fuentes</string>
              </property>
             </item>
             <item>
@@ -6124,7 +6286,27 @@ border-color: white;
             </item>
             <item>
              <property name="text">
+              <string>Las Rosas</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
               <string>Los Molinos</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Maciel</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Maximo Paz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Oliveros</string>
              </property>
             </item>
             <item>
@@ -6134,7 +6316,17 @@ border-color: white;
             </item>
             <item>
              <property name="text">
+              <string>Rufino</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
               <string>Santa Fe</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Santa Isabel</string>
              </property>
             </item>
             <item>
@@ -6152,12 +6344,27 @@ border-color: white;
               <string>Venado Tuerto</string>
              </property>
             </item>
+            <item>
+             <property name="text">
+              <string>Villa Constitucion</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Villa Mugueta</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Wheelwright</string>
+             </property>
+            </item>
            </widget>
            <widget class="QCheckBox" name="cbx_eneldia">
             <property name="geometry">
              <rect>
               <x>40</x>
-              <y>205</y>
+              <y>192</y>
               <width>151</width>
               <height>22</height>
              </rect>
@@ -6206,6 +6413,51 @@ border-color: white;
               <string>LIQUIDAR COMISIONES</string>
              </property>
             </widget>
+           </widget>
+           <widget class="QLineEdit" name="txt_valor_ajuste">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>620</x>
+              <y>242</y>
+              <width>141</width>
+              <height>31</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_80">
+            <property name="geometry">
+             <rect>
+              <x>610</x>
+              <y>220</y>
+              <width>171</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Valor Comision c/ajuste</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="btn_ajustar">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>540</x>
+              <y>556</y>
+              <width>101</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Ajustar</string>
+            </property>
            </widget>
           </widget>
          </widget>
@@ -6295,61 +6547,6 @@ border-color: white;
              <rect>
               <x>50</x>
               <y>260</y>
-              <width>99</width>
-              <height>31</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Agregar</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_84">
-            <property name="geometry">
-             <rect>
-              <x>260</x>
-              <y>90</y>
-              <width>171</width>
-              <height>17</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Agregar Concepto</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_85">
-            <property name="geometry">
-             <rect>
-              <x>250</x>
-              <y>130</y>
-              <width>171</width>
-              <height>17</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Concepto</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="txt_agregar_concepto">
-            <property name="geometry">
-             <rect>
-              <x>250</x>
-              <y>150</y>
-              <width>181</width>
-              <height>31</height>
-             </rect>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="btn_agregar_concepto">
-            <property name="geometry">
-             <rect>
-              <x>280</x>
-              <y>210</y>
               <width>99</width>
               <height>31</height>
              </rect>
@@ -6475,79 +6672,11 @@ border-color: white;
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
-           <widget class="QPushButton" name="btn_agregar_destino">
-            <property name="geometry">
-             <rect>
-              <x>50</x>
-              <y>460</y>
-              <width>99</width>
-              <height>31</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Agregar</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_89">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>390</y>
-              <width>171</width>
-              <height>17</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Destino</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="txt_nuevo_destino">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>410</y>
-              <width>181</width>
-              <height>31</height>
-             </rect>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_91">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>350</y>
-              <width>171</width>
-              <height>17</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Agregar Destino</string>
-            </property>
-           </widget>
-           <widget class="Line" name="line_13">
-            <property name="geometry">
-             <rect>
-              <x>220</x>
-              <y>340</y>
-              <width>20</width>
-              <height>221</height>
-             </rect>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
            <widget class="QLabel" name="label_93">
             <property name="geometry">
              <rect>
-              <x>250</x>
-              <y>349</y>
+              <x>280</x>
+              <y>89</y>
               <width>171</width>
               <height>17</height>
              </rect>
@@ -6565,14 +6694,14 @@ border-color: white;
            <widget class="QDateEdit" name="fecha_valor_comision">
             <property name="geometry">
              <rect>
-              <x>276</x>
-              <y>406</y>
-              <width>110</width>
+              <x>306</x>
+              <y>150</y>
+              <width>91</width>
               <height>31</height>
              </rect>
             </property>
             <property name="displayFormat">
-             <string>dd-MM-yyyy</string>
+             <string>MM-yyyy</string>
             </property>
             <property name="calendarPopup">
              <bool>true</bool>
@@ -6581,21 +6710,21 @@ border-color: white;
            <widget class="QLabel" name="label_94">
             <property name="geometry">
              <rect>
-              <x>276</x>
-              <y>386</y>
+              <x>306</x>
+              <y>130</y>
               <width>171</width>
               <height>17</height>
              </rect>
             </property>
             <property name="text">
-             <string>Fecha</string>
+             <string>Fecha(Mes/Año)</string>
             </property>
            </widget>
            <widget class="QPushButton" name="btn_definir_comision">
             <property name="geometry">
              <rect>
-              <x>280</x>
-              <y>510</y>
+              <x>300</x>
+              <y>260</y>
               <width>99</width>
               <height>31</height>
              </rect>
@@ -6607,9 +6736,9 @@ border-color: white;
            <widget class="QLineEdit" name="txt_valor_comision">
             <property name="geometry">
              <rect>
-              <x>276</x>
-              <y>460</y>
-              <width>111</width>
+              <x>306</x>
+              <y>210</y>
+              <width>91</width>
               <height>31</height>
              </rect>
             </property>
@@ -6617,27 +6746,14 @@ border-color: white;
            <widget class="QLabel" name="label_95">
             <property name="geometry">
              <rect>
-              <x>276</x>
-              <y>440</y>
+              <x>306</x>
+              <y>190</y>
               <width>171</width>
               <height>17</height>
              </rect>
             </property>
             <property name="text">
              <string>Valor</string>
-            </property>
-           </widget>
-           <widget class="Line" name="line_14">
-            <property name="geometry">
-             <rect>
-              <x>430</x>
-              <y>340</y>
-              <width>20</width>
-              <height>221</height>
-             </rect>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
             </property>
            </widget>
            <widget class="QFrame" name="frame_33">
@@ -6939,7 +7055,7 @@ border-color: white;
   <tabstop>rb_pordni</tabstop>
   <tabstop>rb_porregistro</tabstop>
   <tabstop>rb_pornombre</tabstop>
-  <tabstop>btn_busqueda_limpiar</tabstop>
+  <tabstop>btn_exportar_busqueda</tabstop>
   <tabstop>tb_busqueda</tabstop>
   <tabstop>rb_ingresos</tabstop>
   <tabstop>rb_portransferencias</tabstop>
@@ -6993,7 +7109,6 @@ border-color: white;
   <tabstop>txt_modificar_nombre</tabstop>
   <tabstop>txt_modificar_importe</tabstop>
   <tabstop>txt_modificar_concepto</tabstop>
-  <tabstop>tb_modificar</tabstop>
   <tabstop>btn_liberadni</tabstop>
   <tabstop>btn_liberanombre</tabstop>
   <tabstop>btn_liberaimporte</tabstop>
@@ -7007,7 +7122,6 @@ border-color: white;
   <tabstop>btn_liberanumtransferencia</tabstop>
   <tabstop>btn_liberaobs</tabstop>
   <tabstop>btn_modificar</tabstop>
-  <tabstop>cbx_loteado</tabstop>
   <tabstop>btn_liberaregistro</tabstop>
   <tabstop>btn_eliminar_registros</tabstop>
   <tabstop>desde_lote</tabstop>
@@ -7054,19 +7168,14 @@ border-color: white;
   <tabstop>txt_razon</tabstop>
   <tabstop>txt_valor</tabstop>
   <tabstop>btn_cargar_comision</tabstop>
-  <tabstop>btn_imprimir_comision</tabstop>
   <tabstop>btn_eliminar_comision</tabstop>
   <tabstop>tb_comisiones</tabstop>
   <tabstop>txt_agregar_agente</tabstop>
   <tabstop>txt_agregar_dniagente</tabstop>
   <tabstop>btn_agregar_agente</tabstop>
-  <tabstop>txt_agregar_concepto</tabstop>
-  <tabstop>btn_agregar_concepto</tabstop>
   <tabstop>txt_registro_anterior</tabstop>
   <tabstop>txt_registro_nuevo</tabstop>
   <tabstop>btn_cambiar_registro</tabstop>
-  <tabstop>txt_nuevo_destino</tabstop>
-  <tabstop>btn_agregar_destino</tabstop>
   <tabstop>fecha_valor_comision</tabstop>
   <tabstop>txt_valor_comision</tabstop>
   <tabstop>btn_definir_comision</tabstop>
