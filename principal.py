@@ -10,6 +10,7 @@ from openpyxl.styles import Font
 import smtplib 
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from Mensaje import *
 
 
 
@@ -59,10 +60,10 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		self.txt_dni.lostFocus.connect(self.traeafiliado)
 		self.btn_salir.clicked.connect(self.fsalir)
 		self.btn_registrar.clicked.connect(self.registrardatos)
-		self.btn_registrar.clicked.connect(self.limpiar)
+		
 		
 		self.btn_modificar.clicked.connect(self.modificar)
-		self.btn_modificar.clicked.connect(self.limpiar)
+		
 		
 		#PAGINA ACTUALIZAR
 		self.btn_actbuscar.clicked.connect(self.recuperainfoactualizar)
@@ -101,11 +102,12 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		self.btn_liberaobs.clicked.connect(lambda:self.txt_modificar_obs.setEnabled(True))
 		self.btn_liberacuenta.clicked.connect(lambda:self.txt_modificar_cuenta.setEnabled(True))
 		self.btn_liberanuevoreg.clicked.connect(lambda:self.txt_modificar_nuevoreg.setEnabled(True))
+		self.btn_liberafoja.clicked.connect(lambda:self.txt_modificar_foja.setEnabled(True))
 		
 		
 		self.btn_busqueda.clicked.connect(self.busqueda)
 		self.btn_eliminar_registros.clicked.connect(self.eliminarregistro)
-		self.btn_busqueda.clicked.connect(self.limpiar)
+		
 		
 		#self.btn_listarlistar.clicked.connect(self.listar)
 		
@@ -144,7 +146,7 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		
 		#PAGINA ALTA AFILIADOS
 		self.btn_registraralta.clicked.connect(self.altaafiliado)
-		self.btn_registraralta.clicked.connect(self.limpiar)
+		
 		self.btn_eliminar_afiliado.clicked.connect(self.eliminarafiliados)
 		
 		#PAGINA BUSCAR AFILIADO
@@ -161,7 +163,7 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		self.btn_liberaestado_afiliado.clicked.connect(lambda:self.combo_estado_busafi.setEnabled(True))
 		
 		self.btn_actualizar_afiliado.clicked.connect(self.updateafiliado)
-		self.btn_actualizar_afiliado.clicked.connect(self.limpiar)
+		
 
 		
 		#PAGINA COMISIONES
@@ -242,12 +244,8 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		estado = q.getEstado(dni)
 		
 		if estado[0]=='FALLECIDO':
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(3)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("ATENCION")
-			msgBox.setText("AFILIADO FALLECIDO")
-			msgBox.exec_()
+			
+			c.cartel("ATENCION","AFILIADO FALLECIDO",3)
 		
 				
 		
@@ -288,29 +286,17 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 						q.insertarenbd(registro,dni,importe,concepto,fecha,fechap,estado,observaciones,ayn,cuenta)
 					
 						#mensaje
-						msgBox=QtGui.QMessageBox(self.centralwidget)
-						msgBox.setIcon(1)
-						msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-						msgBox.setWindowTitle("REGISTRO INGRESADO")
-						msgBox.setText("EL INGRESO LOTEABLE HA SIDO EXITOSO")
-						msgBox.exec_()
+						
+						c.cartel("REGISTRO INGRESADO","EL INGRESO LOTEABLE HA SIDO EXITOSO",1)
 					else:
 						#mensaje
 						q.insertarenbd(registro,dni,importe,concepto,fecha,fechap,estado,observaciones,ayn,cuenta)
-						msgBox=QtGui.QMessageBox(self.centralwidget)
-						msgBox.setIcon(2)
-						msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-						msgBox.setWindowTitle("REGISTRO NO LOTEABLE")
-						msgBox.setText("EL AFILIADO NO POSEE CUENTA REGISTRADA")
-						msgBox.exec_()
+						c.cartel("REGISTRO NO LOTEABLE","EL AFILIADO NO POSEE CUENTA REGISTRADA",2)
+						
 				else:
 					#mensaje
-					msgBox=QtGui.QMessageBox(self.centralwidget)
-					msgBox.setIcon(3)
-					msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-					msgBox.setWindowTitle(" * *ATENCION * * ")
-					msgBox.setText("EL EXPEDIENTE YA ESTABA REGISTRADO.NUM-->: "+str(duplicados[0]))
-					msgBox.exec_();
+					
+					c.cartel(" * *ATENCION * * ","EL EXPEDIENTE YA ESTABA REGISTRADO.NUM-->: "+str(duplicados[0]),3)
 					
 					
 			else:
@@ -318,34 +304,23 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 			
 				if duplicados == None:
 					q.insertarenbd(registro,dni,importe,concepto,fecha,fechap,estado,observaciones,ayn,cuenta)
-						
-				
-					#mensaje
-					msgBox=QtGui.QMessageBox(self.centralwidget)
-					msgBox.setIcon(1)
-					msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-					msgBox.setWindowTitle("REGISTRO INGRESADO")
-					msgBox.setText("EL INGRESO HA SIDO EXITOSO")
-					msgBox.exec_()
+								
+					c.cartel("REGISTRO INGRESADO","EL INGRESO HA SIDO EXITOSO",1)
+					
 				else:
-				
-				
-					#mensaje
-					msgBox=QtGui.QMessageBox(self.centralwidget)
-					msgBox.setIcon(3)
-					msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-					msgBox.setWindowTitle(" * *ATENCION * * ")
-					msgBox.setText("EL EXPEDIENTE YA ESTABA REGISTRADO.NUM-->: "+str(duplicados[0]))
-					msgBox.exec_();
+												
+					c.cartel(" * *ATENCION * * ","EL EXPEDIENTE YA ESTABA REGISTRADO.NUM-->: "+str(duplicados[0]),3)
 		else:
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(3)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("ERROR")
-			msgBox.setText("CAMPO VACIO")
-			msgBox.exec_()
-		
-		
+			
+			c.cartel("ERROR","CAMPO VACIO",3)
+			
+			
+		#LIMPIEZA
+		self.txt_registro.setText("")
+		self.txt_dni.setText("")
+		self.txt_observaciones.setText("")
+		self.txt_importe.setText("")
+		self.txt_ayn.setText("")
 				
 			
 			
@@ -384,7 +359,7 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 				self.tb_busqueda.setRowCount(totalfilas) #cantidad de filas a llenar *debe ir si o si*
 				fila=0
 			
-			
+		
 		
 			
 			
@@ -430,12 +405,8 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 			
 			
 		else:
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(3)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("ERROR")
-			msgBox.setText("CAMPO VACIO")
-			msgBox.exec_()
+			
+			c.cartel("ERROR","CAMPO VACIO",3)
 		
 		
 	def exportar_busqueda(self):
@@ -488,12 +459,8 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		
 		book.save('/home/usuario/busqueda_exportada.xlsx')
 		
-		msgBox=QtGui.QMessageBox(self.centralwidget)
-		msgBox.setIcon(1)
-		msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-		msgBox.setWindowTitle("AVISO")
-		msgBox.setText("ARCHIVO EXPORTADO")
-		msgBox.exec_()
+		
+		c.cartel("AVISO","ARCHIVO EXPORTADO",1)
 				
 			
 			
@@ -524,15 +491,20 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 			self.tb_actualizar.clear()
 			self.consultarorden()
 		else:
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(3)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("ERROR")
-			msgBox.setText("CAMPO VACIO")
-			msgBox.exec_()
+			c.cartel("ERROR","CAMPO VACIO",3)
 		
 		
 		
+	def convierteFecha(self,fecha):
+		
+		year=fecha[6:10]
+		month=fecha[3:5]
+		day=fecha[0:3]
+		
+		
+		fecha_convertida=year+"-"+month+"-"+day
+		return fecha_convertida
+	
 		
 	def recuperainfoactualizar(self):
 		
@@ -559,6 +531,7 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 				self.tb_actualizar.setItem(fila,5,QtGui.QTableWidgetItem(str(i[5])))
 				
 				self.txt_cuenta.setText(str(i[6]))
+				
 			
 				
 				
@@ -566,12 +539,7 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 				
 				
 		else:
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(3)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("ERROR")
-			msgBox.setText("CAMPO VACIO")
-			msgBox.exec_()
+			c.cartel("ERROR","CAMPO VACIO",3)
 			
 	def consultarorden(self):
 		
@@ -608,15 +576,11 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 				self.txt_modificar_cuenta.setText(str(i[8]))
 				self.txt_modificar_nuevoreg.setText(str(i[9]))
 				self.signal_indice.setText(str(i[10]))
+				self.txt_modificar_foja.setText(str(i[11]))
 				
 				
 		else:
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(3)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("ERROR")
-			msgBox.setText("CAMPO VACIO")
-			msgBox.exec_()		
+			c.cartel("ERROR","CAMPO VACIO",3)	
 				
 	def llenarcamposmodificar(self):
 		fila=self.tb_modificar.currentRow()
@@ -651,6 +615,7 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		nuevoreg=str(self.txt_modificar_nuevoreg.text())
 		cuenta=str(self.txt_modificar_cuenta.text())
 		indice=int(self.signal_indice.text())
+		foja=int(self.txt_modificar_foja.text())
 		
 		#validar vacios
 		
@@ -670,22 +635,18 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 			transferencia=0
 		if obs=="":
 			obs=""
-			
+		if foja =="":
+			foja=0	
 			
 				
 			
-		q.actualizatodoenbd(dni,nombre,importe,concepto,str(fechapago),fechaprestacion,int(transferencia),obs,cuenta,nuevoreg,indice)
+		q.actualizatodoenbd(dni,nombre,importe,concepto,str(fechapago),fechaprestacion,int(transferencia),obs,cuenta,nuevoreg,foja,indice)
 		if self.cbx_modificaenlote.isChecked():
 			registro=str(self.txt_modificar_registro.text())
 			q.actualizarenlotes(registro,importe)
 		
 		#MENSAJE OK
-		msgBox=QtGui.QMessageBox(self.centralwidget)
-		msgBox.setIcon(1)
-		msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-		msgBox.setWindowTitle("MODIFICACION")
-		msgBox.setText("REGISTRO MODIFICADO")
-		msgBox.exec_()	
+		c.cartel("INFORMACION","REGISTRO MODIFICADO",1)	
 		#LIMPIA FORMULARIO
 		self.txt_modificar_registro.setText("")
 		self.txt_modificar_dni.setText("")
@@ -696,6 +657,21 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		self.txt_modificar_fechaprestacion.setText("")
 		self.txt_modificar_transferencia.setText("")
 		self.txt_modificar_obs.setText("")
+		self.txt_modificar_foja.setText("")
+		self.txt_modificar_cuenta.setText("")
+		self.txt_modificar_nuevoreg.setText("")
+		self.signal_indice.setText("")
+		#BLOQUEA CAMPOS
+		self.txt_modificar_dni.setEnabled(False) 
+		self.txt_modificar_nombre.setEnabled(False)
+		self.txt_modificar_importe.setEnabled(False)
+		self.txt_modificar_concepto.setEnabled(False)
+		self.txt_modificar_fechapago.setEnabled(False)
+		self.txt_modificar_fechaprestacion.setEnabled(False)
+		self.txt_modificar_transferencia.setEnabled(False)
+		self.txt_modificar_obs.setEnabled(False)
+		self.txt_modificar_cuenta.setEnabled(False)
+		self.txt_modificar_nuevoreg.setEnabled(False)
 		
 		
 	
@@ -717,10 +693,7 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 			dni=int(self.txt_modificar_dni.text())
 			q.eliminarregistros(registro,dni)
 			
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setWindowTitle(" * * ATENCION * * ")
-			msgBox.setText("REGISTRO ELIMINADO")
-			resp= msgBox.exec_()
+			c.cartel("ATENCION","REGISTRO ELIMINADO",1)
 			
 		elif r==4194304:
 			pass
@@ -738,7 +711,9 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		self.txt_modificar_transferencia.setText("")
 		self.txt_modificar_obs.setText("")	
 		self.txt_modificar_cuenta.setText("")
-		self.self.signal_indice.setText("")
+		self.signal_indice.setText("")
+		
+		
 			
 		
 	def verhistorial(self):
@@ -762,20 +737,12 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 					self.tb_devoluciones.setItem(fila,4,QtGui.QTableWidgetItem(str(i[4])))#DESTINO
 					fila = fila+1
 			else:
-				msgBox=QtGui.QMessageBox(self.centralwidget)
-				msgBox.setIcon(1)
-				msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-				msgBox.setWindowTitle("SIN HISTORIAL")
-				msgBox.setText("EL EXPEDIENTE INGRESADO NO POSEE HISTORIAL REGISTRADO")
-				msgBox.exec_()
+				
+				c.cartel("SIN HISTORIAL","EL EXPEDIENTE INGRESADO NO POSEE HISTORIAL REGISTRADO",1)
 				
 		else:
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(3)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("ERROR")
-			msgBox.setText("CAMPO VACIO")
-			msgBox.exec_()
+			
+			c.cartel("ERROR","CAMPO VACIO",3)
 			
 	def nuevadevolucion(self):
 		
@@ -795,28 +762,16 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 				self.txt_devregistro.setText("")
 				self.txt_dev_motivo.setText("")
 				
-				msgBox=QtGui.QMessageBox(self.centralwidget)
-				msgBox.setIcon(2)
-				msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-				msgBox.setWindowTitle("DEVOLUCION")
-				msgBox.setText("EXPEDIENTE DEVUELTO CORRECTAMENTE")
-				msgBox.exec_()
+			
+				c.cartel("DEVOLUCION","EXPEDIENTE DEVUELTO CORRECTAMENTE",2)
 			else:
-				msgBox=QtGui.QMessageBox(self.centralwidget)
-				msgBox.setIcon(3)
-				msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-				msgBox.setWindowTitle("ERROR")
-				msgBox.setText("NO EXISTE ESE NUMERO DE REGISTRO. CORREGIR")
-				msgBox.exec_()
+				
+				c.cartel("ERROR","NO EXISTE ESE NUMERO DE REGISTRO. CORREGIR",2)
 				
 				
 		else:
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(3)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("ERROR")
-			msgBox.setText("CAMPO VACIO")
-			msgBox.exec_()
+			
+			c.cartel("ERROR","CAMPO VACIO",3)
 	
 	def nuevaobservacion(self):
 		
@@ -835,36 +790,20 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 					self.txt_devregistro.setText("")
 					self.txt_dev_motivo.setText("")
 					
-					msgBox=QtGui.QMessageBox(self.centralwidget)
-					msgBox.setIcon(2)
-					msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-					msgBox.setWindowTitle("MENSAJE")
-					msgBox.setText("EXPEDIENTE OBSERVADO CORRECTAMENTE")
-					msgBox.exec_()
+					
+					c.cartel("MENSAJE","EXPEDIENTE OBSERVADO CORRECTAMENTE",2)
 				else:
-					msgBox=QtGui.QMessageBox(self.centralwidget)
-					msgBox.setIcon(3)
-					msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-					msgBox.setWindowTitle("ERROR")
-					msgBox.setText("NO EXISTE ESE NUMERO DE REGISTRO. CORREGIR")
-					msgBox.exec_()
+					
+					c.cartel("ERROR","NO EXISTE ESE NUMERO DE REGISTRO. CORREGIR",3)
 					
 					
 			else:
-				msgBox=QtGui.QMessageBox(self.centralwidget)
-				msgBox.setIcon(3)
-				msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-				msgBox.setWindowTitle("SIN MOTIVO")
-				msgBox.setText("INGRESE MOTIVO")
-				msgBox.exec_()
+				
+				c.cartel("SIN MOTIVO","INGRESE MOTIVO",3)
 				
 		else:
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(3)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("ERROR")
-			msgBox.setText("CAMPO VACIO")
-			msgBox.exec_()
+			
+			c.cartel("ERROR","CAMPO VACIO",3)
 		
 		
 	def reingresarregistro(self):
@@ -877,19 +816,12 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 			q.reingresar(registro,fechareingreso,destino)
 			q.observa_estado(registro,'PENDIENTE')
 			
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(1)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("REINGRESO")
-			msgBox.setText("EL EXPEDIENTE FUE REINGRESADO A LA OFICINA CORRECTAMENTE CON ESTADO PENDIENTE")
-			msgBox.exec_()
+			
+			c.cartel("REINGRESO","EL EXPEDIENTE FUE REINGRESADO A LA OFICINA CORRECTAMENTE CON ESTADO PENDIENTE",1)
 		else:
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(3)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("ERROR")
-			msgBox.setText("NO EXISTE ESE NUMERO DE REGISTRO. CORREGIR")
-			msgBox.exec_()
+			
+			c.cartel("ERROR","NO EXISTE ESE NUMERO DE REGISTRO. CORREGIR",3)
+			
 		
 		
 	def listadotodos(self):
@@ -1105,12 +1037,8 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		
 		wb.save('/home/usuario/listar.xlsx')
 		
-		msgBox=QtGui.QMessageBox(self.centralwidget)
-		msgBox.setIcon(1)
-		msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-		msgBox.setWindowTitle("AVISO")
-		msgBox.setText("INFOME GENERADO")
-		msgBox.exec_()
+		
+		c.cartel("AVISO","INFORME GENERADO",1)
 		
 	def limpiarlista(self):
 		self.rb_todos.setChecked(True)
@@ -1218,12 +1146,8 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 			
 		
 			book.save('/home/usuario/relacion.xlsx')
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(1)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("AVISO")
-			msgBox.setText("INFOME RELACION DE GASTOS GENERADO")
-			msgBox.exec_()
+			
+			c.cartel("AVISO","INFOME RELACION DE GASTOS GENERADO",1)
 			
 					
 		elif self.rb_30.isChecked():
@@ -1300,26 +1224,15 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 					
 				
 			book.save('/home/usuario/relacion.xlsx')
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(1)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("AVISO")
-			msgBox.setText("INFOME RELACION DE GASTOS GENERADO")
-			msgBox.exec_()	
+			
+			c.cartel("AVISO","INFOME RELACION DE GASTOS GENERADO",1)	
 
 
 						
 		
 			book.save('/home/usuario/relacion.xlsx')
 			
-			
-			
-			
-			
-			
-			
-			
-			
+						
 		else:
 			cuenta='%'
 		
@@ -1343,12 +1256,8 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 			lote=int(self.txt_filtrado_lotes.text())
 			listarecuperada=q.listarloteablesxlote(lote)
 			if not listarecuperada:
-				msgBox=QtGui.QMessageBox(self.centralwidget)
-				msgBox.setIcon(3)
-				msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-				msgBox.setWindowTitle("ERROR")
-				msgBox.setText("NO EXISTE ESE LOTE")
-				msgBox.exec_()
+				
+				c.cartel("ERROR","NO EXISTE ESE LOTE",3)
 				
 		elif self.rb_xafiliado.isChecked():
 			afiliado=str(self.txt_filtrado_lotes.text()+'%')
@@ -1390,12 +1299,8 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		
 		lote=q.validalote(lote)
 		if lote:
-				msgBox=QtGui.QMessageBox(self.centralwidget)
-				msgBox.setIcon(3)
-				msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-				msgBox.setWindowTitle("ERROR")
-				msgBox.setText("ESE NUMERO DE LOTE YA EXISTE")
-				msgBox.exec_()
+				
+				c.cartel("ERROR","ESE NUMERO DE LOTE YA EXISTE",3)
 		else:
 		
 			k = indice
@@ -1428,20 +1333,12 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 				k=k+1
 		
 				
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(1)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("LOTE CREADO")
-			msgBox.setText("EL LOTE FUE GENERADO CORRECTAMENTE")
-			msgBox.exec_()
+			
+			c.cartel("LOTE CREADO","EL LOTE FUE GENERADO CORRECTAMENTE",1)
 			
 			if fallecidos > 0:
-				msgBox=QtGui.QMessageBox(self.centralwidget)
-				msgBox.setIcon(1)
-				msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-				msgBox.setWindowTitle("REGISTROS OMITIDOS")
-				msgBox.setText("SE OMITIERON "+fallecidos+" REGISTROS POR POSEER CUENTAS INACTIVAS")
-				msgBox.exec_()
+				
+				c.cartel("REGISTRO OMITIDOS","SE OMITIERON "+fallecidos+" REGISTROS POR POSEER CUENTAS INACTIVAS",1)
 				
 		
 		#Limpieza
@@ -1461,6 +1358,7 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		msgBox.setWindowTitle("REGISTRO SELECCIONADO")
 		msgBox.setText("QUITAR DE REGISTROS LOTEABLES?")
 		r= msgBox.exec_()
+	
 		
 		
 		
@@ -1469,10 +1367,8 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 					
 			q.eliminarregistroloteable(int(indice))
 			
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setWindowTitle(" * * ATENCION * * ")
-			msgBox.setText("REGISTRO ELIMINADO")
-			resp= msgBox.exec_()
+			
+			c.cartel("REGISTRO","REGISTRO ELIMINADO",1)
 			self.listadoloteables()
 			
 		elif r==4194304:
@@ -1505,10 +1401,8 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 					
 			q.eliminarcomision(str(fecha),str(agente))
 			
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setWindowTitle(" * * ATENCION * * ")
-			msgBox.setText("REGISTRO ELIMINADO")
-			resp= msgBox.exec_()
+		
+			c.cartel("REGISTRO","REGISTRO ELIMINADO",1)
 			self.vercomisiones()
 			
 		elif r==4194304:
@@ -1571,12 +1465,8 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		book.save('/home/usuario/detallelote.xlsx')
 		self.traeultimolote()
 		
-		msgBox=QtGui.QMessageBox(self.centralwidget)
-		msgBox.setIcon(1)
-		msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-		msgBox.setWindowTitle("INFORMACION")
-		msgBox.setText("DETALLE EXPORTADO")
-		msgBox.exec_()
+		
+		c.cartel("INFORMACION","DETALLE EXPORTADO",1)
 	
 	
 		
@@ -1623,53 +1513,38 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 					
 				
 						q.ingresarafiliado(dni,nombre,cbu,cuenta,email,sistema,sucursal,estado)
-						msgBox=QtGui.QMessageBox(self.centralwidget)
-						msgBox.setIcon(1)
-						msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-						msgBox.setWindowTitle("EXITO")
-						msgBox.setText("ALTA OK!")
-						msgBox.exec_()
+						
+						c.cartel("EXITO","ALTA OK",1)
 						self.txt_dnialta.setFocus()
 					else:
-						msgBox=QtGui.QMessageBox(self.centralwidget)
-						msgBox.setIcon(3)
-						msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-						msgBox.setWindowTitle("ERROR GRAVE")
-						msgBox.setText("CBU CORRESPONDE A OTRO AFILIADO")
-						msgBox.exec_()
+						
+						c.cartel("ERROR GRAVE","CBU CORRESPONDE A OTRO AFILIADO",3)
 						self.txt_dnialta.setFocus()
 						
 					
 				else:
 					
-					msgBox=QtGui.QMessageBox(self.centralwidget)
-					msgBox.setIcon(3)
-					msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-					msgBox.setWindowTitle("AFILIADO EXISTENTE")
-					msgBox.setText("YA SE HA INGRESADO ESE AFILIADO CON ANTERIORIDAD")
-					msgBox.exec_()
+					
+					c.cartel("AFILIADO EXISTENTE","YA SE HA INGRESADO ESE AFILIADO CON ANTERIORIDAD",3)
 					self.txt_dnialta.setFocus()
 			
 			else:
-				msgBox=QtGui.QMessageBox(self.centralwidget)
-				msgBox.setIcon(3)
-				msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-				msgBox.setWindowTitle("MAL CBU")
-				msgBox.setText("FORMATO CBU INCORRECTO")
-				msgBox.exec_()
+				
+				c.cartel("MAL CBU","FORMATO CBU INCORRECTO",3)
+				self.txt_dnialta.setFocus()
 				
 				
 			
 		else:
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(3)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("ERROR")
-			msgBox.setText("CAMPOS VACIOS")
-			msgBox.exec_()
+			
+			c.cartel("ERROR","CAMPOS VACIOS",3)
 			self.txt_dnialta.setFocus()
 		
-			
+		#LIMPIEZA
+		self.txt_dnialta.setText("")
+		self.txt_nombrealta.setText("")
+		self.txt_emailalta.setText("")
+		self.txt_cbualta.setText("")	
 			
 		
 	def buscarafiliado(self):
@@ -1769,7 +1644,16 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 			
 		else:
 			q.actualizaafiliadoxcta(nombre,cbu,cuenta,estado,email,dni)
-			
+		
+		
+		self.txt_nombre_busafi.setEnabled(False)
+		self.txt_cbu_busafi.setEnabled(False)
+		self.txt_telbusafi.setEnabled(False)
+		self.txt_email_busafi.setEnabled(False)
+		self.txt_aliasbusafi.setEnabled(False)
+		self.txt_cuenta_busafi.setEnabled(False)
+		self.txt_cuil_busafi.setEnabled(False)
+		self.combo_estado_busafi.setEnabled(False)
 	
 	def eliminarafiliados(self):
 		
@@ -1790,10 +1674,8 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		
 			q.eliminarafiliado(dni)
 			
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setWindowTitle(" * * ATENCION * * ")
-			msgBox.setText("REGISTRO ELIMINADO")
-			resp= msgBox.exec_()
+			
+			c.cartel("ATENCION","REGISTRO ELIMINADO",3)
 			
 		elif r==4194304:
 			pass
@@ -1892,20 +1774,12 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 			path ="/home/usuario/comisiones/comision_generada {}.xlsx".format(agente + fecha_comision)
 			
 			wb.save(path)
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(1)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("AVISO")
-			msgBox.setText("COMISION LIQUIDADA")
-			msgBox.exec_()
+			
+			c.cartel("AVISO","COMISION LIQUIDADA",1)
 		
 		else:
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(3)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("COMISION EXISTENTE")
-			msgBox.setText("YA EXISTE UNA COMISION PARA ESA FECHA Y PARA ESE AGENTE")
-			msgBox.exec_()
+			
+			c.cartel("COMISION EXISTENTE","YA EXISTE UNA COMISION PARA ESA FECHA Y PARA ESE AGENTE",3)
 			self.txt_dnialta.setFocus()
 			
 			
@@ -1958,12 +1832,8 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		path ="/home/usuario/comisiones/comision_generada {}.xlsx".format("AJUSTE "+agente + fecha)
 			
 		wb.save(path)
-		msgBox=QtGui.QMessageBox(self.centralwidget)
-		msgBox.setIcon(1)
-		msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-		msgBox.setWindowTitle("AVISO")
-		msgBox.setText("COMISION AJUSTADA")
-		msgBox.exec_()
+		
+		c.cartel("AVISO","COMISION AJUSTADA",1)
 		
 		
 		
@@ -2007,21 +1877,14 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		
 		existe=q.validaragente(dni)
 		if existe:
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(3)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("ERROR")
-			msgBox.setText("ESE AGENTE YA FUE INGRESADO CON ANTERIORIDAD")
-			msgBox.exec_()
+			
+			c.cartel("ERROR","ESE AGENTE YA FUE INGRESADO CON ANTERIORIDAD",3)
 			
 		else:
 			q.insertaragente(nombre,dni)
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(1)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("OK")
-			msgBox.setText("ALTA REALIZADA")
-			msgBox.exec_()
+			
+			c.cartel("OK","ALTA REALIZADA",1)
+			
 		
 		self.txt_agregar_agente.setText("")
 		self.txt_agregar_dniagente.setText("")
@@ -2041,63 +1904,10 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 			
 					
 	def limpiar(self):
-		self.txt_registro.setText("")
-		self.txt_dni.setText("")
-		self.txt_observaciones.setText("")
-		self.txt_importe.setText("")
-		self.txt_ayn.setText("")
-		#self.cb_ingresos.clean()		
+		pass
 		
-		
-		
-		#PAGINA BUSCAR
-		self.txt_busqueda.setText("")
-		#self.tb_busqueda.deleteAllRows()
-		
-		#pagina actualizar
-		self.txt_modificar_registro.setText("")
-		self.txt_modificar_dni.setText("")
-		self.txt_modificar_nombre.setText("")
-		self.txt_modificar_importe.setText("")
-		self.txt_modificar_concepto.setText("")
-		self.txt_modificar_fechapago.setText("")
-		self.txt_modificar_fechaprestacion.setText("")
-		self.txt_modificar_transferencia.setText("")
-		self.txt_modificar_obs.setText("")
-		
-		#bloquea campos actualizar
-		self.txt_modificar_dni.setEnabled(False) 
-		self.txt_modificar_nombre.setEnabled(False)
-		self.txt_modificar_importe.setEnabled(False)
-		self.txt_modificar_concepto.setEnabled(False)
-		self.txt_modificar_fechapago.setEnabled(False)
-		self.txt_modificar_fechaprestacion.setEnabled(False)
-		self.txt_modificar_transferencia.setEnabled(False)
-		self.txt_modificar_obs.setEnabled(False)
-		self.txt_modificar_cuenta.setEnabled(False)
-		self.txt_modificar_nuevoreg.setEnabled(False)
-		
-		#bloque campos buscar afiliado
-		self.txt_nombre_busafi.setEnabled(False)
-		self.txt_cbu_busafi.setEnabled(False)
-		self.txt_telbusafi.setEnabled(False)
-		self.txt_email_busafi.setEnabled(False)
-		self.txt_aliasbusafi.setEnabled(False)
-		self.txt_cuenta_busafi.setEnabled(False)
-		self.txt_cuil_busafi.setEnabled(False)
-		self.combo_estado_busafi.setEnabled(False)
-		
-		
-		
-		
-		
-		self.txt_dnialta.setText("")
-		self.txt_nombrealta.setText("")
-		
-		self.txt_emailalta.setText("")
-		
-		
-		self.txt_cbualta.setText("")
+	
+			
 		
 		
 	def bloquearrblistar(self):
@@ -2183,14 +1993,10 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 					q.insertarenbd(registro,dni,importe,concepto,fecha,fechap,estado,observaciones,ayn,cuenta)
 					registrados=registrados+1
 						
-		msgBox=QtGui.QMessageBox(self.centralwidget)
-		msgBox.setIcon(1)
-		msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-		msgBox.setWindowTitle("REGISTRO IMPORTADOS")
-		msgBox.setText("SE HAN IMPORTADO "+""+str(registrados)+" REGISTROS"+
+		
+		c.cartel("REGISTRO IMPORTADOS","SE HAN IMPORTADO "+""+str(registrados)+" REGISTROS"+
 		"NO SE HAN IMPORTADO"+""+str(duplicados)+" REGISTROS (DUPLICADOS)"
-		+"y"+str(nocuenta)+" debido a que no tenian cuenta")
-		msgBox.exec_()
+		+"y"+str(nocuenta)+" debido a que no tenian cuenta",1)
 	
 	def importarcuentas(self):
 		
@@ -2229,14 +2035,9 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 				print "cuenta existente"+" "+str(dni)+" "+nombre
 				repetidos=repetidos+1
 		
-		msgBox=QtGui.QMessageBox(self.centralwidget)
-		msgBox.setIcon(1)
-		msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-		msgBox.setWindowTitle("REGISTRO IMPORTADOS")
-		msgBox.setText("SE HAN IMPORTADO "+""+str(validas)+" REGISTROS"+
-		" NO SE HAN IMPORTADO"+""+str(repetidos)+" REGISTROS (DUPLICADOS)")
 		
-		msgBox.exec_()
+		c.cartel("REGISTRO IMPORTADOS","SE HAN IMPORTADO "+""+str(validas)+" REGISTROS"+
+		" NO SE HAN IMPORTADO"+""+str(repetidos)+" REGISTROS (DUPLICADOS)",1)
 		
 	def importarpagos(self):
 		noencontrados=[]
@@ -2266,6 +2067,10 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 					transferencia=int(sheet['A{}'.format(i)].value)
 					estado="TRANSFERIDO"	
 					fecha=fechapago[0:10]
+						#PENDIENTE CONVERTIR FECHA DE PAGO
+						
+					
+						
 					q.actualizapagoenbd_masivo(registro,fecha,transferencia,estado,orden,mes,anio)
 					cont_actualizados = cont_actualizados+1
 					
@@ -2304,23 +2109,11 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		
 		if cont_noactualizados >0 or cont_inconsistentes >1:
 			
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(1)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("PAGOS ACTUALIZADOS")
-			msgBox.setText("VER REPORTE!")
 			
-			msgBox.exec_()
+			c.cartel("PAGOS ACTUALIZADOS CON OBSERVACIONES","VER REPORTE!",1)
 		else:
 			
-			
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(1)
-			msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
-			msgBox.setWindowTitle("PAGOS ACTUALIZADOS")
-			msgBox.setText("OK! TODOS LOS REGISTROS ACTUALIZADOS")
-			
-			msgBox.exec_()
+			c.cartel("PAGOS ACTUALIZADOS","OK! TODOS LOS REGISTROS ACTUALIZADOS",1)
 		
 		book = Workbook()
 		sheet = book.active
@@ -2351,7 +2144,7 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 		sheet['B4']=str(cont_inconsistentes)
 		
 		
-		sheet['A5']="NO ENCONTRADOS:"
+		sheet['A5']="NO ENCONTRADOS O YA TRANSFERIDOS:"
 		sheet.append(noencontrados)
 		sheet['A7']="INCONSISTENTES:"
 		
@@ -2454,10 +2247,8 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 				
 				q.updatevalorcomision(valor,int(month),int(year))
 				
-				msgBox=QtGui.QMessageBox(self.centralwidget)
-				msgBox.setWindowTitle(" * * ATENCION * * ")
-				msgBox.setText("VALOR MODIFICADO")
-				resp= msgBox.exec_()
+				
+				c.cartel("ATENCION","VALOR MODIFICADO",1)
 				
 			elif r==4194304:
 				pass
@@ -2466,11 +2257,8 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 				pass
 		else:
 			q.nuevovalorcomision(int(year),int(month),valor,fecha_vigencia)
-			msgBox=QtGui.QMessageBox(self.centralwidget)
-			msgBox.setIcon(1)
-			msgBox.setWindowTitle("AVISO ")
-			msgBox.setText("VALOR DEFINIDO CORRECTAMENTE")
-			resp= msgBox.exec_()
+			
+			c.cartel("AVISO","VALOR DEFINIDO CORRECTAMENTE",1)
 		
 		
 		
@@ -2505,6 +2293,7 @@ class VentanaPrincipal(QtGui.QMainWindow, form_class):
 
 if __name__ == '__main__':
 	q=base()
+	c=Mensaje()
 	app = QtGui.QApplication(sys.argv)
 	MyWindow = VentanaPrincipal(None)
 	MyWindow.show()

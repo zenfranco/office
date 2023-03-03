@@ -108,7 +108,7 @@ class base():
 		
 	def recuperatodoenbd(self,reg):
 		cur=self.conn.cursor()
-		cur.execute('''SELECT dni,ayn,importe,concepto,fecha_pago,fecha_pres,num_transferencia,observaciones,cuenta,num_reg,indice from registros  
+		cur.execute('''SELECT dni,ayn,importe,concepto,fecha_pago,fecha_pres,num_transferencia,observaciones,cuenta,num_reg,indice,orden from registros  
 		where num_reg = %s order by fecha_ingreso ''',([reg.upper()]))
 		listado = cur.fetchall()
 		cur.close()
@@ -130,13 +130,14 @@ class base():
 		cur.close()
 		return listado
 		
-	def actualizatodoenbd(self,dni,ayn,importe,concepto,fechapago,fechapres,transferencia,obs,cuenta,registro,indice):
+	def actualizatodoenbd(self,dni,ayn,importe,concepto,fechapago,fechapres,transferencia,obs,cuenta,registro,orden,indice):
 		cur=self.conn.cursor()
 		cur.execute('''UPDATE registros SET dni=%s,importe=%s,concepto=%s,fecha_pago=%s
-		,fecha_pres=%s,num_transferencia=%s,observaciones=%s,ayn=%s,cuenta=%s,num_reg=%s where indice=%s''',([dni,importe,concepto,fechapago,
-		fechapres,transferencia,obs,ayn,cuenta,registro,indice]))
+		,fecha_pres=%s,num_transferencia=%s,observaciones=%s,ayn=%s,cuenta=%s,num_reg=%s,orden=%s where indice=%s''',([dni,importe,concepto,fechapago,
+		fechapres,transferencia,obs,ayn,cuenta,registro,orden,indice]))
 		self.conn.commit()
 		cur.close()
+		
 	def actualizarenlotes(self,registro,importe):
 		cursor=self.conn.cursor()
 		cursor.execute('''UPDATE lotes SET importe=%s where num_reg =%s''',([importe,registro.upper()]))
@@ -363,7 +364,7 @@ class base():
 	
 	def validaregistro(self,registro):
 		cur=self.conn.cursor()
-		cur.execute(''' select num_reg,importe from registros where num_reg= (%s) ''',[registro])
+		cur.execute(''' select num_reg,importe from registros where num_reg= (%s) and estado ='PENDIENTE' ''',[registro])
 		reg=cur.fetchone()
 		self.conn.commit()
 		cur.close()
